@@ -41,10 +41,10 @@ For this there are some helpers:
 configure_channel_on CHANNEL MODE POS ROTATE
 ```
 
-Channel - The name of the channel to configure
-Mode - The new mode of the channel (for 1080p this would be the string "1920x1080")
-Pos - The position of the channel (for the second monitor in a double-1080p-configuration this would be "1920x0")
-Rotate - The rotation of the channel. Normally this is the string "normal".
+*   Channel - The name of the channel to configure
+*   Mode - The new mode of the channel (for 1080p this would be the string "1920x1080")
+*   Pos - The position of the channel (for the second monitor in a double-1080p-configuration this would be "1920x0")
+*   Rotate - The rotation of the channel. Normally this is the string "normal".
 
 An example configuration for a dual-screen 1080p setup:
 
