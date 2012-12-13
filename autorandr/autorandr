@@ -1,0 +1,57 @@
+#!/bin/bash
+
+if [ -z "$AUTORANDR_DIR" ]; then
+    AUTORANDR_DIR="$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")/autorandr.d"
+fi
+
+AVAILABLE_CHANNELS="$(xrandr | grep -o "[A-Z]*\-[0-9]* connected" | grep -o "[A-Z]*\-[0-9]*")"
+
+contains_element () {
+  local e
+  for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
+  return 1
+}
+
+all_channels_off() {
+    for CHANNEL in $(xrandr | grep -o "[A-Z]*\-[0-9]*"); do
+        xrandr --output $CHANNEL --off
+    done
+}
+
+all_channels_off_except() {
+    for CHANNEL in $(xrandr | grep -o "[A-Z]*\-[0-9]*"); do
+        contains_element "$1" $@
+        if [ ! "$?" -eq "0" ]; then
+            xrandr --output $CHANNEL --off
+        fi
+    done
+}
+
+configure_channel_off() {
+    for CHANNEL in $@; do
+        xrandr --output $CHANNEL --off
+    done
+}
+
+configure_channel_on() {
+    local CHANNEL="$1"
+    local MODE="$2"
+    local POS="$3"
+    local ROTATE="$4"
+
+    xrandr --output $CHANNEL --mode $MODE --pos $POS --rotate $ROTATE
+}
+
+for F in $(ls $AUTORANDR_DIR/*.rc 2>/dev/null); do
+    source $F
+    config_applies_for "$AVAILABLE_CHANNELS"
+    if [ $? -eq 0 ]; then
+        echo "Configuration $AUTORANDR_CONFIG_NAME can be used. Applying the configuration now..."
+        apply_config
+        exit 0
+    fi
+done
+
+echo "No matching configuration could be found. I tried:"
+echo "$(ls $AUTORANDR_DIR/*.rc 2>/dev/null)"
+exit 1
