@@ -35,11 +35,16 @@ For this there are some helpers:
 *   all_channels_off: Sets all XRandR channels to "off".
 *   all_channels_off_except: Sets all XRandR channels to "off" except the ones given as arguments.
 *   configure_channel_off: Configures a single channel (given as the only argument) to "off".
-*   configure_channel_on: Configures a single channel to "on". This needs four parameters:
-        CHANNEL - The name of the channel to configure
-        MODE - The new mode of the channel (for 1080p this would be the string "1920x1080")
-        POS - The position of the channel (for the second monitor in a double-1080p-configuration this would be "1920x0")
-        ROTATE - The rotation of the channel. Normally this is the string "normal".
+*   configure_channel_on: Configures a single channel to "on". This needs four parameters.
+
+```
+configure_channel_on CHANNEL MODE POS ROTATE
+```
+
+Channel - The name of the channel to configure
+Mode - The new mode of the channel (for 1080p this would be the string "1920x1080")
+Pos - The position of the channel (for the second monitor in a double-1080p-configuration this would be "1920x0")
+Rotate - The rotation of the channel. Normally this is the string "normal".
 
 An example configuration for a dual-screen 1080p setup:
 
